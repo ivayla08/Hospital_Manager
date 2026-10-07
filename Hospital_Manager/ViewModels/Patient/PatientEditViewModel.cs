@@ -22,6 +22,6 @@ namespace Hospital_Manager.ViewModels.Patient
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage ="Molq izberete lekar")]
-        public int DoctorId {  get; set; }
+        public List<int> DoctorIds {  get; set; } = new List<int>();
     }
 }
