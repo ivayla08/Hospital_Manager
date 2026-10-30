@@ -115,6 +115,30 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Main St, Kazanlak",
+                            BedsCount = 200,
+                            CreatedOn = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hospital@kazanlak.com",
+                            IsDeleted = false,
+                            Name = "Kazanlak Hospital",
+                            PhoneNumber = "1234567890"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "123 Main St, Sofia",
+                            BedsCount = 200,
+                            CreatedOn = new DateTime(2026, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hospital@sofia.com",
+                            IsDeleted = false,
+                            Name = "Sofia Hospital",
+                            PhoneNumber = "1234567990"
+                        });
                 });
 
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Patient", b =>
