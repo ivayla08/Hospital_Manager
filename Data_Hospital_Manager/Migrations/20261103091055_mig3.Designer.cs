@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Hospital_Manager.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20261030122431_addedConfigs")]
-    partial class addedConfigs
+    [Migration("20261103091055_mig3")]
+    partial class mig3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,28 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasIndex("HospitalId");
 
                     b.ToTable("Doctors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "niya@mail.bg",
+                            FirstName = "Niya",
+                            HospitalId = 3,
+                            LastName = "Ivanova",
+                            PhoneNumber = "0888888888",
+                            Specialty = "Cardiologist"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "dariya@mail.bg",
+                            FirstName = "Dariya",
+                            HospitalId = 4,
+                            LastName = "Vulkova",
+                            PhoneNumber = "0888888888",
+                            Specialty = "Neurologist"
+                        });
                 });
 
             modelBuilder.Entity("Data_Hospital_Manager.Entities.DoctorPatient", b =>
@@ -79,6 +101,23 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("DoctorsPatients");
+
+                    b.HasData(
+                        new
+                        {
+                            DoctorId = 1,
+                            PatientId = 1
+                        },
+                        new
+                        {
+                            DoctorId = 2,
+                            PatientId = 2
+                        },
+                        new
+                        {
+                            DoctorId = 1,
+                            PatientId = 2
+                        });
                 });
 
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Hospital", b =>
@@ -122,7 +161,7 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 3,
                             Address = "123 Main St, Kazanlak",
                             BedsCount = 200,
                             CreatedOn = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -133,7 +172,7 @@ namespace Data_Hospital_Manager.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 4,
                             Address = "123 Main St, Sofia",
                             BedsCount = 200,
                             CreatedOn = new DateTime(2026, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -173,6 +212,24 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "ivayla@mail.bg",
+                            FirstName = "Ivayla",
+                            LastName = "Ivanova",
+                            PhoneNumber = "0891234567"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "petya@mail.bg",
+                            FirstName = "Petya",
+                            LastName = "Petrova",
+                            PhoneNumber = "0891934567"
+                        });
                 });
 
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Doctor", b =>

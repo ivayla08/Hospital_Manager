@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Hospital_Manager.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20261002112522_mig5")]
-    partial class mig5
+    [Migration("20261103085954_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,30 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Address = "123 Main St, Kazanlak",
+                            BedsCount = 200,
+                            CreatedOn = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hospital@kazanlak.com",
+                            IsDeleted = false,
+                            Name = "Kazanlak Hospital",
+                            PhoneNumber = "1234567890"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "123 Main St, Sofia",
+                            BedsCount = 200,
+                            CreatedOn = new DateTime(2026, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hospital@sofia.com",
+                            IsDeleted = false,
+                            Name = "Sofia Hospital",
+                            PhoneNumber = "1234567990"
+                        });
                 });
 
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Patient", b =>

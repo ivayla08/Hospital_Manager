@@ -16,7 +16,7 @@ namespace Data_Hospital_Manager.Configurations
             builder.HasData(
                 new Hospital
                 {
-                    Id = 1,
+                    Id = 3,
                     Name = "Kazanlak Hospital",
                     Address = "123 Main St, Kazanlak",
                     Email = "hospital@kazanlak.com",
@@ -28,7 +28,7 @@ namespace Data_Hospital_Manager.Configurations
                 },
                 new Hospital
                 {
-                    Id = 2,
+                    Id = 4,
                     Name = "Sofia Hospital",
                     Address = "123 Main St, Sofia",
                     Email = "hospital@sofia.com",

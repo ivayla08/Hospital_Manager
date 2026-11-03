@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Hospital_Manager.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    [Migration("20260715142619_Doctor")]
-    partial class Doctor
+    [Migration("20261103090811_migConfigs")]
+    partial class migConfigs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,21 @@ namespace Data_Hospital_Manager.Migrations
                     b.ToTable("Doctors");
                 });
 
+            modelBuilder.Entity("Data_Hospital_Manager.Entities.DoctorPatient", b =>
+                {
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DoctorId", "PatientId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("DoctorsPatients");
+                });
+
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Hospital", b =>
                 {
                     b.Property<int>("Id")
@@ -103,6 +118,61 @@ namespace Data_Hospital_Manager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Address = "123 Main St, Kazanlak",
+                            BedsCount = 200,
+                            CreatedOn = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hospital@kazanlak.com",
+                            IsDeleted = false,
+                            Name = "Kazanlak Hospital",
+                            PhoneNumber = "1234567890"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "123 Main St, Sofia",
+                            BedsCount = 200,
+                            CreatedOn = new DateTime(2026, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "hospital@sofia.com",
+                            IsDeleted = false,
+                            Name = "Sofia Hospital",
+                            PhoneNumber = "1234567990"
+                        });
+                });
+
+            modelBuilder.Entity("Data_Hospital_Manager.Entities.Patient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Doctor", b =>
@@ -116,9 +186,38 @@ namespace Data_Hospital_Manager.Migrations
                     b.Navigation("Hospital");
                 });
 
+            modelBuilder.Entity("Data_Hospital_Manager.Entities.DoctorPatient", b =>
+                {
+                    b.HasOne("Data_Hospital_Manager.Entities.Doctor", "Doctor")
+                        .WithMany("DoctorPatients")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data_Hospital_Manager.Entities.Patient", "Patient")
+                        .WithMany("DoctorPatients")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Data_Hospital_Manager.Entities.Doctor", b =>
+                {
+                    b.Navigation("DoctorPatients");
+                });
+
             modelBuilder.Entity("Data_Hospital_Manager.Entities.Hospital", b =>
                 {
                     b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("Data_Hospital_Manager.Entities.Patient", b =>
+                {
+                    b.Navigation("DoctorPatients");
                 });
 #pragma warning restore 612, 618
         }

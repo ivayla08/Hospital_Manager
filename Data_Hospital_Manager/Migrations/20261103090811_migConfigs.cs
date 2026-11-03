@@ -5,7 +5,7 @@
 namespace Data_Hospital_Manager.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class migConfigs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
