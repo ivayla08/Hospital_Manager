@@ -68,7 +68,7 @@ namespace Hospital_Manager.Controllers
 
         public async Task LoadDoctors(List<int> selectedDoctors = null)
         {
-            var allDoctors = await doctorService.GetAllDoctorListAsync();
+            var allDoctors = await doctorService.GetAllDoctorsAsync();
             var doctors = allDoctors
                 .Select(x => new
                 {

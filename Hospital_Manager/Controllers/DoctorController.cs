@@ -21,9 +21,25 @@ namespace Hospital_Manager.Controllers
             hospitalService = hService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetFilterDoctors(string? search, string? specialty, string? sortOrder)
+        {
+            var doctors = await doctorService.GetAllDoctorsAsync(search, specialty, sortOrder);
+
+            var result = doctors.Select(d => new
+            {
+                Id = d.Id,
+                FirstName = d.FirstName,
+                LastName = d.LastName,
+                Specialty = d.Specialty,
+                HospitalName = d.Hospital.Name
+            }).ToList();
+            return Json(result);
+        }
+
         public async Task<IActionResult> Index()
         {
-            var doctors = await doctorService.GetAllDoctorListAsync();
+            var doctors = await doctorService.GetAllDoctorsAsync();
 
             var model = new List<DoctorIndexViewModel>();
 
@@ -70,7 +86,7 @@ namespace Hospital_Manager.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var hospitals = await hospitalService.GetAllHospitalListAsync();
+            var hospitals = await hospitalService.GetAllHospitalsAsync();
 
             ViewBag.Hospitals = new SelectList(
                 hospitals.Where(h => !h.IsDeleted),
@@ -102,7 +118,7 @@ namespace Hospital_Manager.Controllers
             }
             //Вземи болниците от БД и ги сложи във ViewBag.Hospitals.
 
-            var hospitals = await hospitalService.GetAllHospitalListAsync();
+            var hospitals = await hospitalService.GetAllHospitalsAsync();
 
             ViewBag.Hospitals = new SelectList(
     hospitals
@@ -132,7 +148,7 @@ namespace Hospital_Manager.Controllers
                 PhoneNumber = doctor.PhoneNumber,
                 HospitalId = doctor.HospitalId
             };
-            var hospitals = await hospitalService.GetAllHospitalListAsync();
+            var hospitals = await hospitalService.GetAllHospitalsAsync();
 
             ViewBag.Hospitals = new SelectList(hospitals.Where(h => !h.IsDeleted),                       
                     "Id",
@@ -169,7 +185,7 @@ namespace Hospital_Manager.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            var hospitals = await hospitalService.GetAllHospitalListAsync();
+            var hospitals = await hospitalService.GetAllHospitalsAsync();
 
             ViewBag.Hospitals = new SelectList(
                   hospitals

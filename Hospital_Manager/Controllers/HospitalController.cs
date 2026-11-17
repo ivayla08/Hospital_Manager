@@ -1,9 +1,10 @@
 ﻿using Data_Hospital_Manager;
 using Data_Hospital_Manager.Entities;
+using Hospital_Manager.Core.Interfaces;
+using Hospital_Manager.Core.Services;
+using Hospital_Manager.ViewModels.Hospital;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Hospital_Manager.ViewModels.Hospital;
-using Hospital_Manager.Core.Interfaces;
 
 namespace Hospital_Manager.Controllers
 {
@@ -20,26 +21,28 @@ namespace Hospital_Manager.Controllers
 
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search, int? minBeds, string? sortOrder)
         {
-            var hospitals = await _hospitalService.GetAllHospitalListAsync();
+            var hospitals = await _hospitalService.GetAllHospitalsAsync(search, minBeds, sortOrder);
 
-            var model = new List<HospitalIndexViewModel>();//празен списък за ViewModel-ите
+            var model = new List<HospitalIndexViewModel>();
 
-            foreach (var hospital in hospitals)
+            foreach (var item in hospitals)
             {
                 model.Add(new HospitalIndexViewModel
                 {
-                    Id = hospital.Id,
-                    Name = hospital.Name,
-                    Address = hospital.Address,
-                    Email = hospital.Email,
-                    PhoneNumber = hospital.PhoneNumber,
-                    BedsCount = hospital.BedsCount
+                    Id = item.Id,
+                    Name = item.Name,
+                    Address = item.Address,
+                    Email = item.Email,
+                    PhoneNumber = item.PhoneNumber,
+                    BedsCount = item.BedsCount
                 });
             }
-
-            return View(model);//Изпращаме списъка към View
+            ViewBag.Search = search;
+            ViewBag.MinBeds = minBeds;
+            ViewBag.SortOrder = sortOrder;
+            return View(model);
         }
 
 
@@ -140,7 +143,7 @@ namespace Hospital_Manager.Controllers
                 hospital.PhoneNumber = model.PhoneNumber;
                 hospital.BedsCount = model.BedsCount;
 
-                await _hospitalService.UpdateHospital(hospital);
+                await _hospitalService.UpdateHospitalAsync(hospital);
 
                 return RedirectToAction(nameof(Index));
             }
